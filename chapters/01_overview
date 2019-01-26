@@ -1,0 +1,87 @@
+
+-------------------------------------------------
+CHAPTER 1 - C++ OVERVIEW
+-------------------------------------------------
+
+- C++ Language Basics
+
+    // Comments
+    // Single Line Comment
+    /* Multi Line Comment */
+
+
+    // Library Inclusions
+    #include "genlib.h"       // User-defined library
+    #include <iostream>       // System library
+    #include <iomanip>        // System library
+
+
+    // Constant Declarations
+    const int LOWER_LIMIT = 0;
+    const int UPPER_LIMIT = 0;
+
+
+    // Function prototypes must be declared before the function appears in code
+    int RaiseIntToPower(int n, int k);
+
+
+    // Main execution must occur in 'main' method, which returns 0 if successful
+    int main() {
+        ...
+        return 0;
+    }
+
+
+    // Function definitions
+    int RaiseIntToPower(int n, int k) {
+        ...
+        return result;
+    }
+
+
+
+- Variables
+
+    // In C++, variables are initially undefined.
+    int result;
+
+    // If you want variables initialized, must assign explicitly
+    int result = 0;
+
+
+
+- Naming Conventions
+
+    C++ identifiers:
+      1. must start with a letter or underscore
+      2. all other characters must be letters, digits, or underscores
+      3. cannot use reserved words
+
+    By convention,
+      - variable names are camel case and start with a lowercase letter
+      - function names are camel case and start with an uppercase letter
+      - constants are all uppercase, separated by underscores
+
+
+
+- Atomic Types
+
+    // Integers (implementations vary by machine)
+    short
+    int
+    long
+    unsigned int
+    unsigned long
+    unsigned short
+
+    // Floating Point (implementations vary by machine)
+    float
+    double
+    long double
+
+    // Text
+    char
+    string
+
+    // Boolean
+    bool
