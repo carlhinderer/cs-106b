@@ -85,3 +85,117 @@ CHAPTER 1 - C++ OVERVIEW
 
     // Boolean
     bool
+
+
+
+- C++ Operators (Highest Precedence to Lowest)
+
+    Reference () [] -> .
+    Unary - ++ -- ! & * - (type) sizeof
+    Math * / % + -
+    Shift << >>
+    Boolean < <= > >= == !=
+    Bitwise & ^ |
+    Logical ! && || ?:
+    Assignment = op=
+    Series ,
+
+
+
+- Operation Details
+
+    // Type Casting
+    >>> quotient = double(num) / den;
+    >>> int(1.99999)
+    1
+
+
+    // Multiple assignment is allowed
+    >>> a = b = c = 0;
+
+
+    // Prefix and Posfix Operators
+    // 
+    // x++ = calculate value of x, then in(de)crement it.  The value returned to the 
+    // x--     surrounging expression is the value before the in(de)crement.
+    //
+    // ++x = in(de)crements x first, then returns the new value to the surrounding 
+    // --x     expression
+
+
+    // Short-circuit evaluation of boolean expressions is used.
+
+
+
+- Statements
+
+    // Simplest statement
+    expression;
+
+
+    // Block
+    {
+        statement1;
+        statement2;
+        ...
+    }
+
+
+    // if statement
+    if (n % 2 == 0) {
+        cout << "The number is even." << endl;
+    } else {
+        cout << "The number is odd." << endl;
+    }
+
+
+    // switch statement
+    // Note that cases must be scalar type
+    switch(e) {
+        case c1:
+            statements;
+            break;
+        case c2:
+            statements;
+            break;
+        default:
+            statements;
+            break;
+    }
+
+
+    // Example switch statement
+    // Note that month names are scalar because they map to integer constants
+    int MonthDays(int month, int year) {
+        switch(month) {
+            case September:
+            case April:
+            case June:
+            case November:
+                return 30;
+            case February:
+                return (IsLeapYear(year)) ? 29 : 28;
+            default:
+                return 31;
+        }
+    }
+
+
+    // While loop
+    while(n > 0){
+        n -= 10;
+    }
+
+
+    // Loop and a half
+    while(true) {
+        ...
+        if (value == sentinel) break;
+        ...
+    }
+
+
+    // For loop
+    for (int i=0; i < n; i++) {
+       ...
+    }
