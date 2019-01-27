@@ -16,6 +16,7 @@ bool IsPerfect(int num);
 
 int main() {
     PrintPerfectNumbers(LOWER_BOUND, UPPER_BOUND);
+    return 0;
 }
 
 void PrintPerfectNumbers(int lowerBound, int upperBound) {
