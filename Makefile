@@ -8,12 +8,9 @@ SAMPLETARGET=sample.exe
 SAMPLEMAIN=./samplecode/powertab.cpp
 
 STANFORDLIBS=./lib/StanfordCPPLib
-IOLIB=./lib/StanfordCPPLib/io
-PRIVATELIB=./lib/StanfordCPPLib/private
 
 samplemake:
-	$(CC) $(FLAGS) -o $(SAMPLETARGET) $(SAMPLEMAIN) \
-	$(VERSION) -I $(IOLIB) -I $(PRIVATELIB) -I $(STANFORDLIBS)
+	$(CC) $(FLAGS) -o $(SAMPLETARGET) $(SAMPLEMAIN) $(VERSION)
 
 clean:
 	$(RM) $(ANYEXE)
