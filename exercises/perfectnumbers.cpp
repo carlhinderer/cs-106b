@@ -6,7 +6,6 @@
  */
 
 #include <iostream>
-#include <string>
 using namespace std;
 
 const int LOWER_BOUND = 1;
