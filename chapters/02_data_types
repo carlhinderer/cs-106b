@@ -1,0 +1,171 @@
+-------------------------------------------------
+CHAPTER 2 - C++ DATA TYPES
+-------------------------------------------------
+
+- Enumeration Types
+
+    // C++ enums are mapped to integers, so theyre scalar types
+    enum directionT { North, East, South, West};
+
+
+    directionT RightFrom(directionT dir) {
+        return directionT((dir + 1) % 4);
+    }
+
+
+    string DirectionName(directionT dir) {
+        case North: return "North";
+        case East: return "East";
+        case South: return "South";
+        case West: return "West";
+        default: Error("Illegal direction value");
+    }
+
+
+
+- The 'sizeof' operator
+
+     // Returns the number of bytes required to store a value of the type
+     sizeof(int)
+
+     // Returns the number of bytes required to store the variable x
+     sizeof x
+
+
+
+- Pointers
+
+    A pointer is a data item whose value is an address in memory.  Because giving
+      programmers access to the hardware itself was a design principle of C++, 
+      pointers are exposed and their use is pervasive in C++.
+
+      - Pointers allow you to refer to large data structures in a compact way.
+      - Pointers make it possible to reserve new memory during memory execution.
+      - Pointers can be used to record relationships among data items.
+
+
+
+- lvalues
+
+    In C++, any expression that refers to an internal memory location cabable of 
+      storing data is called an 'lvalue', because it can appear on the left side
+      of an assignment statement.
+
+      // Simple variables are lvalues
+      x = 1.0;
+
+      - Every lvalue is stored somewhere in memory and therefore has an address.
+      - Once it has been declared, the address of an lvalue never changes.
+      - Different lvalues require different types of memory, depending on their data type.
+      - The address of an lvalue is a pointer value, which can be stored in memory and
+          manipulated as data.
+
+
+
+- Declaring Pointer Variables
+
+    // p is a pointer to int
+    int *p;
+
+    // c is a pointer to char
+    char *cptr;
+
+
+
+- Fundamental Pointer Operations
+
+    C++ defines 2 operators that allow you to move back and forth between values and
+      pointers to those values.
+
+      &    Address Of
+      *    Value Pointed To (Dereference)
+
+
+      // Declare variables
+      >>> int x, y;
+      >>> int *p1, *p2;
+
+      // In Memory
+
+           ---------
+      1000 |       | x
+           ---------
+      1004 |       | y
+           ---------
+      1008 |       | p1
+           ---------
+      1012 |       | p2
+           ---------
+
+
+      // Assign values to variables
+      >>> x = -42;
+      >>> y = 163;
+
+      // In Memory
+
+           ---------
+      1000 |  -42  | x
+           ---------
+      1004 |  163  | y
+           ---------
+      1008 |       | p1
+           ---------
+      1012 |       | p2
+           ---------
+
+
+      // Initialize pointers with addresses of variables
+      >>> p1 = &x;
+      >>> p2 = &y;
+
+      // In Memory
+
+           ---------
+      1000 |  -42  | x
+           ---------
+      1004 |  163  | y
+           ---------
+      1008 | 1000  | p1
+           ---------
+      1012 | 1004  | p2
+           ---------
+
+
+    // Assign variable x using pointer
+    >>> *p1 = 17;
+
+    // In Memory
+
+           ---------
+      1000 |   17  | x
+           ---------
+      1004 |  163  | y
+           ---------
+      1008 | 1000  | p1
+           ---------
+      1012 | 1004  | p2
+           ---------
+
+
+    // Can also assign pointer variables
+    >>> p1 = p2;
+
+    // In Memory
+
+           ---------
+      1000 |   17  | x
+           ---------
+      1004 |  163  | y
+           ---------
+      1008 | 1004  | p1
+           ---------
+      1012 | 1004  | p2
+           ---------
+
+
+    // Pointer assignment
+    >>> p1 = p2;
+
+    // Value assignment
+    >>> *p1 = *p2;
