@@ -255,3 +255,111 @@ CHAPTER 2 - C++ DATA TYPES
     int array[5];
     int *p;
     p = array;
+
+
+
+- Records
+
+    A record is a collection of individual fields (aka members).  
+
+    // Create a record type
+    struct employeeRecordT {
+        string name;
+        string title;
+        string ssnum;
+        double salary;
+        int withholding;
+    };
+
+
+    // Declare variable of record type
+    employeeRecordT emprec;
+    empRec.name = "Ebenezer Scrooge";
+    empRec.title = "Partner";
+    empRec.ssnum = "271-82-8183";
+    empRec.salary = 250.00;
+    empRec.withholding = 1;
+
+
+    // Declare and initialize together
+    employeeRecordT manager = {
+        "Ebenezer Scrooge", "Partner", "271-82-8183", 250.00, 1
+    };
+
+
+    It is often easier to use pointers to record variables than to use the
+      record variables themselves.
+
+    // This declaration only reserves space for the pointer itself
+    employeeRecordT *empPtr;
+
+    // Point to empRec record
+    empPtr = &empRec;
+
+    // Get empRec's field, parentheses are required due to order of operations
+    (*empPtr).salary
+
+    // Alternate (and more common) syntax to get field
+    empPtr->salary
+
+
+
+- Dynamic Allocation
+
+    Types of memory allocation:
+      1. Static allocation    = declare a global variable, compiler allocates memory space for
+                                variable, which persists throughout the entire program
+
+      2. Automatic allocation = when you declare a local variable inside a function, the space
+                                for that variable is allocated on the system stack when the
+                                function is called, and is automatically freed when the function
+                                returns
+
+      3. Dynamic allocation   = acquire new memory when you need it, then free it explicitly when
+                                you no longer need it
+
+
+    In C++, the 'new' operator is used to allocate memory from the heap.  
+
+    // Allocate an integer in the heap
+    int *ip = new int;
+
+    // Allocate an employee record in the heap
+    employeeRecordT *empPtr = new employeeRecordT;
+
+    // The new[] operator is used to allocate an array on the heap
+    int *intList = new int[12];
+    employeeRecordT *empList = new employeeRecordT[1000];
+
+
+    // Deallocate space when you're done with it
+    delete ip;
+    delete empPtr;
+
+    // Deallocate arrays
+    delete[] intList;
+    delete[] empList;
+
+
+
+- Dynamic Arrays
+
+    // When a normal array is created, the size must be known at compile time.
+    int intArray[10];
+
+    // This will cause a compiler error
+    int intArray[n];
+
+
+    // 'Dynamic arrays' allocated on the heap and referenced using a pointer
+    //   do not have this limitation, which makes them very important.
+    int *intArray = new int[n];
+
+
+
+- Dynamic Records
+
+    // Dynamic allocation is useful for records also.
+    employeeRecordT *empPtr;
+    empPtr = new employeeRecordT;
+    empPrt->name = "Eric S. Roberts";
