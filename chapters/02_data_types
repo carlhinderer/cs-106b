@@ -169,3 +169,89 @@ CHAPTER 2 - C++ DATA TYPES
 
     // Value assignment
     >>> *p1 = *p2;
+
+
+    // Special NULL pointer
+    // If you accidentally dereference it, you'll get a weird error!
+    >>> int *p1 = NULL;
+
+
+
+- Arrays
+
+    // C++ arrays are ordered and homogenous
+    >>> int intArray[10];
+    >>> intArray[0] = 9;
+
+    - The size of an array specified in the declaration is the 'allocated size'.
+    - The numbers of elements actually in use is called the 'effective size'.
+
+
+    // Passing array as parameter, second parameter is effective size
+    double Mean(double array[], int n) {
+        double total = 0;
+        for (int i=0; i < n; i++) {
+            total += array[i];
+        }
+        return total / n;
+    }
+
+
+    // Array initialization, either will work
+    >>> int digits[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    >>> int digits[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+
+
+    // Trick to get the number of elements in an array
+    >>> string cities[] = {...}
+    >>> int nCities = sizeof cities / sizeof cities[0];
+
+
+    // Multidimensional arrays
+    >>> double matrix[3][3];
+    >>> double identityMatrix[3][3] = {
+            {1.0, 0.0, 0.0},
+            {0.0, 1.0, 0.0},
+            {0.0, 0.0, 1.0}
+        };
+
+
+
+- Pointers and Arrays
+
+    One of the unusual things in C++ is that the name of an array is treated as
+      being synonymous with a pointer to the initial element of the array.  For
+      instance, if you create an array of ints:
+
+      int intList[5];
+
+    Then, 
+
+      intList  
+      IS IDENTICAL TO   
+      &intList[0]
+
+
+      // If you have a function:
+      int SumIntegerArray(int array[], int n);
+
+      // Can pass the array in:
+      int sum = SumIntegerArray(intList, 5);
+
+      // Or the function could instead be written:
+      int SumIntegerArray(int *array, int n);
+
+      // And it works the exact same way:
+      int sum = SumIntegerArray(intList, 5);
+
+
+    As a general rule, you should declare parameters in a way that reflects their
+      use.  If you intend to use the parameter as an array and select elements from it,
+      you should declare it as an array.  If you intend to dereference it like a 
+      pointer, declare it as a pointer.
+
+
+    // Make pointer point to existing array
+    int array[5];
+    int *p;
+    p = array;
