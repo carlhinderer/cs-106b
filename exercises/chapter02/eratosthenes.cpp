@@ -12,6 +12,9 @@ using namespace std;
 const int UPPER_BOUND = 1000;
 
 void PrintPrimeNumbers(int upperBound);
+void InitializePrimes(bool primes[], int upperBound);
+void SieveOfEratosthenes(bool primes[], int upperBound);
+void PrintPrimes(bool primes[], int upperBound);
 
 int main() {
     PrintPrimeNumbers(UPPER_BOUND);
@@ -19,24 +22,31 @@ int main() {
 }
 
 void PrintPrimeNumbers(int upperBound) {
-    /* Initialize primes array */
-    bool allNumbers[upperBound+1];
-    for (int i=0; i <= upperBound; i++) {
-        allNumbers[i] = true;
-    }
+    bool primes[upperBound+1];
+    InitializePrimes(primes, upperBound);
+    SieveOfEratosthenes(primes, upperBound);
+    PrintPrimes(primes, upperBound);
+}
 
-    /* Run sieve of eratosthenes */
+void InitializePrimes(bool primes[], int upperBound) {
+    for (int i=0; i <= upperBound; i++) {
+        primes[i] = true;
+    }    
+}
+
+void SieveOfEratosthenes(bool primes[], int upperBound) {
     for (int i=2; i < sqrt(upperBound); i++) {
-        if (allNumbers[i]) {
+        if (primes[i]) {
             for (int j=i*2; j <= upperBound; j+=i) {
-                allNumbers[j] = false;
+                primes[j] = false;
             }
         }
     }
+}
 
-    /* Print primes */
+void PrintPrimes(bool primes[], int upperBound) {
     for (int i=2; i<= upperBound; i++) {
-        if (allNumbers[i]) {
+        if (primes[i]) {
             cout << i << " ";
         }
     }
