@@ -278,3 +278,91 @@ CHAPTER 3 - LIBRARIES AND INTERFACES
     // Can go backwards a character with the unget() method
     // For instance, if you're parsing and looking for a 2-character sequence
     infile.unget()
+
+
+
+- Example - Copy Removing Comments
+
+    void CopyRemovingComments(ifstream & infile, ofstream & outfile) {
+        ing ch, nch;
+        bool commentFlag;
+
+        commentFlag = false;
+        while ((ch = infile.get()) != EOF) {
+            if(commentFlag) {
+                if (ch == '*') {
+                    nch = infile.get();
+                    if (nch == '/') {
+                        commentFlag = false;
+                    } else {
+                        infile.unget();
+                    }
+                }
+            } else {
+                if (ch == '/') {
+                    nch = infile.get();
+                    if (nch == '*') {
+                        commentFlag = true;
+                    } else {
+                        infile.unget();
+                    }
+                if (!commentFlag) outfile.put(ch);
+            }
+        }
+    }
+
+
+
+- Common Operations
+
+    // Common operations for all streams
+    file.open(filename)
+    file.close()
+    file.fail()
+    file.clear()
+
+    // Common operations for input streams
+    infile.get()
+    infile.unget()
+    getline(infile, str)
+    infile >> var
+
+    // Common operations for output streams
+    outfile.put(ch)
+    outfile << expr
+
+
+
+- Other ANSI Libraries
+
+    // 'cctype' interface functions
+    isupper(ch)
+    islower(ch)
+    isalpha(ch)
+
+    isdigit(ch)
+    isalnum(ch)
+
+    ispunct(ch)
+    isspace(ch)
+    isprint(ch)
+
+    toupper(ch)
+    tolower(ch)
+
+
+    // 'math' interface functions
+    fabs(x)
+    floor(x)
+    ceil(x)
+    fmod(x, y)
+
+    sqrt(x)
+    pow(x, y)
+    exp(x)
+    log(x)
+
+    sin(theta)
+    cos(theta)
+    atan(x)
+    atan2(y, x)
