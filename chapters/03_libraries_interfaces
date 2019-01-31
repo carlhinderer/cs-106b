@@ -80,7 +80,7 @@ CHAPTER 3 - LIBRARIES AND INTERFACES
     // Get a random number
     int rand();
 
-    // Constant that defines machine-specific max number
+    // Constant that defines machine-specific max integer
     RAND_MAX
 
     // Set seed to current system time
@@ -151,6 +151,130 @@ CHAPTER 3 - LIBRARIES AND INTERFACES
      * integer argument.  The time function is exported by
      * the <ctime> interface.
      */
+
     void Randomize() {
         srand(int(time(NULL)));
     }
+
+
+
+- Steps To Get Random Integer, Explained
+
+    0. Use rand() to get an integer between 0 and MAX_SIZE
+
+    1. Normalize  = convert integer result from rand() to a random floating point 
+                    value d in the interval [0, 1)
+
+    2. Scale      = multiply d by the size of the desired range, so that it spans the
+                    correct number of integers
+
+    3. Truncate   = use type cast to conver to integer by throwing away fractional
+                    part
+
+    4. Translate  = add the value to 'low' so that the range begins a the desired
+                    lower bound
+
+
+
+- C++ Strings
+
+    #include <string>
+
+    // Concatenation
+    string str1 = "Hello";
+    string str2 = str1 + " World";
+
+    // Copies contents, but variables remain independent
+    str2 = str1;
+
+    // Legicograpic Comparison
+    if (str1 == str2) ...
+
+    // String length
+    int numChars = str1.length();
+
+    // Other common string methods
+    str[pos]
+    str.substr(pos, len)
+    str.find(ch, pos)
+    str.find(pattern, pos)
+    str.insert(pos, txt)
+    str.replace(pos, count, txt)
+
+    // Sometimes you need a C-style string to interface with older code
+    string str = "Hello";
+    char *cstr = str.c_str();
+
+
+
+- Using File Streams
+
+    1. Declare a stream variable
+
+        ifstream infile;
+        ofstream outfile;
+
+    2. Open the file
+
+        infile.open("jabberwocky.txt");
+
+        // Note that if you have the file name in a variable,
+        //   must pass c-string version of it
+        string fileName = "jabberwocky.txt";
+        infile.open(fileName.c_str());
+
+        // If opening a file fails, and you want to try again, must
+        //   clear the stream first.
+        if (infile.fail()) Error("Could not open file.");
+        infile.clear();
+
+    3. Transfer the data
+
+    4. Close the file
+
+        infile.close();
+
+
+
+- Standard Streams
+
+    cin  = standard input stream
+    cout = standard output stream
+    cerr = standard error stream
+
+
+
+- Stream Examples
+
+    // Formatted stream output
+    outfile << "some text " << num << endl;
+
+    // Formatted stream input
+    int num;
+    infile >> num;
+
+
+    // Example - Read and sum numbers in a file until end is reached
+    int total, num;
+    total = 0;
+
+    while(true) {
+        infile >> num;
+        if (infile.fail()) break;
+        total += num;
+    }
+
+
+    // EOF character is returned at the end of a file when using get()
+    void CopyFile(istream & infile, ostream & outfile) {
+        int ch;
+
+        while ((ch = infile.get()) != EOF) {
+            outfile.put(ch);
+        }
+    }
+
+
+    // Can go backwards a character with the unget() method
+    // For instance, if you're parsing and looking for a 2-character sequence
+    infile.unget()
