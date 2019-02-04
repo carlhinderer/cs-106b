@@ -1,0 +1,154 @@
+-------------------------------------------------
+CHAPTER 4 - ABSTRACT DATA TYPES
+-------------------------------------------------
+
+- ADTs
+
+    'Abstract data types' are types defined in terms of their behavior
+      rather then their representation.
+
+    The ADTs created in this chapter are inspired by the C++ STL (Standard
+      Template Library) classes.  They are a somewhat simplified version
+      of them.
+
+
+
+- The 'Vector' ADT
+
+    Arrays:
+      1. are allocated with a particular fixed size
+      2. programmers have to keep track of the size
+      3. inserting or deleting elements requires a fair amount of code
+      4. no bounds checking
+
+    Vectors:
+      1. dynamically resizing
+      2. keep track of their length
+      3. easy to insert or delete
+      4. include bounds checking
+
+
+    Vectors are 'collection classes' (aka 'container classes'), so the type they
+      contain must be specified.  The type is called the 'base type' and classes
+      that include a base type specification are known as 'parameterized classes'.
+
+
+    // Declare and use a new vector object
+    Vector<int> vec;
+    vec.add(10);
+    vec.setAt(0, 20);
+    vec[0] = 30;
+    vec.removeAt(0);
+
+    // Vector methods
+    size()
+    isEmpty()
+    getAt(index)
+    setAt(index, value)
+    add(value)
+    insertAt(index, value)
+    removeAt(index)
+    clear()
+    iterator()
+
+
+    // Pass Vector as a parameter
+    // Note the default is to pass by copy, but we pass by reference here, since
+    //   it's more efficient and we can mutate it.
+    void PrintVector(Vector<int> & vec) { ... }
+
+
+
+- Example - File Reverser
+
+    /*
+     * File: revfile.cpp
+     * -----------------
+     * This program reads in a text file and then displays the lines of
+     * the file in reverse order.
+     */
+    #include "genlib.h"
+    #include "simpio.h"
+    #include "vector.h"
+    #include <string>
+    #include <iostream>
+    #include <fstream>
+
+    /* Function prototypes */
+    void ReadTextFile(ifstream & infile, Vector<string> & lines);
+    void AskUserForInputFile(string prompt, ifstream & infile);
+    void PrintReversed(Vector<string> & lines);
+
+    /* Main program */
+    int main() {
+        ifstream infile;
+        AskUserForInputFile("Input file: ", infile);
+        Vector<string> lines;
+        ReadTextFile(infile, lines);
+        infile.close();
+        PrintReversed(lines);
+        return 0;
+    }
+
+    /*
+     * Reads an entire file into the Vector<string> supplied by the user.
+     */
+    void ReadTextFile(ifstream & infile, Vector<string> & lines) {
+        while (true) {
+            string line;
+            getline(infile, line);
+            if (infile.fail()) break;
+            lines.add(line);
+        }
+    }
+
+    /*
+     * Opens a text file whose name is entered by the user.  If the file
+     * does not exist, the user is given additional chances to enter a
+     * valid file.  The prompt string is used to tell the user what kind
+     * of file is required.
+     */
+    void AskUserForInputFile(string prompt, ifstream & infile) {
+        while (true) {
+            cout << prompt;
+            string filename = GetLine();
+            infile.open(filename.c_str());
+            if (!infile.fail()) break;
+            cout << "Unable to open " << filename << endl;
+            infile.clear();
+        }
+    }
+
+    /*
+     * Prints the lines from the Vector<string> in reverse order.
+     */
+    void PrintReversed(Vector<string> & lines) {
+        for (int i = lines.size() - 1; i >= 0; i--) {
+            cout << lines[i] << endl;
+        }
+    }
+
+
+
+- The 'Grid' ADT
+
+    The Grid class is used to implement 2D arrays.
+
+    // 3 rows, 2 columns
+    Grid<double> matrix(3, 2);
+
+    // Initialize
+    for (int i=0; i < matrix.numRows(); i++) {
+        for (int j=0; j M matrix.numCols(); j++) {
+            matrix[i][j] = 0;
+        }
+    }
+
+
+    // Grid methods
+    numRows()
+    numCols()
+    getAt(row, col)
+    setAt(row, col, value)
+    resize(rows, cols)
+    iterator()
