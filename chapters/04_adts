@@ -152,3 +152,78 @@ CHAPTER 4 - ABSTRACT DATA TYPES
     setAt(row, col, value)
     resize(rows, cols)
     iterator()
+
+
+
+- Example - Determine Winner of Tic-Tac-Toe Game
+
+    /* 
+     * Checks to see whether the specified player identified by mark 
+     * ('X' or 'O') has won the game.  To reduce the number of special 
+     * cases, this implementation uses the helper function CheckLine. 
+     */
+
+    bool CheckForWin(Grid<char> & board, char mark) {
+        for (int i=0; i < 3; i++) {
+            if (CheckLine(board, mark, i, 0, 0, 1)) return true;
+            if (CheckLine(board, mark, 0, i, 1, 0)) return true;
+        }
+        if (CheckLine(board, mark, 0, 0, 1, 1)) return true;
+        return CheckLine(board, mark, 2, 0, -1, 1);
+    }
+
+    /* 
+    * Checks a line extending across the board in some direction.  The 
+    * starting coordinates are given by the row and col parameters. 
+    * The direction of motion is specified by dRow and dCol, which 
+    * show how to adjust the row and col values on each cycle.  For 
+    * rows, dRow is always 0; for columns,  dCol is 0.  For diagonals, 
+    * these values will be +1 or -1 depending on the direction. 
+    */
+
+    bool CheckLine(Grid<char> & board, char mark, int row, int col, 
+                   int dRow, int dCol) {
+        for (int i=0; i < 3 i++) {
+            if (board[row][col] != mark) return false;
+            row += dRow;
+            col += dCol;
+        }
+    }
+
+
+
+- The 'Stack' ADT
+
+    Stacks are LIFO objects.  Adding an object is 'pushing' it onto the stack.
+      Removing an object is 'popping' it off the stack.  Stacks are useful in 
+      programming, because nested function calls behave in a stack-oriented
+      fashion.
+
+    // Create a stack
+    Stack<int> myStack;
+
+    // Stack methods
+    size()
+    isEmpty()
+    push(value)
+    pop()
+    peek()
+    clear()
+
+
+
+- The 'Queue' ADT
+
+    Queues are FIFO objects.  Adding an object is 'enqueueing' it.  Removing
+      an object is 'dequeueing' it.  
+
+    // Create a queue
+    Queue<int> muQueue;
+
+    // Queue methods
+    size()
+    isEmpty()
+    enqueue(value)
+    dequeue()
+    peek()
+    clear()
