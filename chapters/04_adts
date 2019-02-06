@@ -227,3 +227,102 @@ CHAPTER 4 - ABSTRACT DATA TYPES
     dequeue()
     peek()
     clear()
+
+
+
+- The 'Map' ADT
+
+    The map class used in this book uses strings as keys by default, so only
+      the value type is specified.  Arrays implemented using maps are called
+      'associative arrays'.
+
+    // Create a map <string, double>
+    Map<double> symbolTable;
+
+    // Map methods
+    size()
+    isEmpty()
+    put(key, value)
+    get(key)
+    remove(key)
+    containsKey(key)
+    clear()
+    iterator()
+
+
+
+- The 'Lexicon' Class
+
+    The lexicon class used in this book is similar to a set of strings, but you
+      pass in a filename of words that the class will read in.
+
+    // Create a lexicon
+    Lexicon english("EnglishWords.dat");
+
+    // Lexicon methods
+    size()
+    isEmpty()
+    add(word)
+    addWordsFromFile(name)
+    containsWord(word)
+    containsPrefix(prefix)
+    clear()
+    iterator()
+
+
+
+- The 'Scanner' Class
+
+    The scanner class used in this book is a string tokenizer.
+
+    // Create new scanner object
+    Scanner scanner;
+
+    // Initialize the input to be scanned
+    scanner.setInput(str);
+
+    // Read tokens from the scanner
+    while (scanner.hasMoreTokens()) {
+        string token = scanner.nextToken();
+    }
+
+    // Scanner methods
+    setInput(str)
+    setInput(stream)
+
+    hasMoreTokens()
+    nextToken()
+    saveToken(token)
+
+    setSpaceOption(option)
+    getSpaceOption()
+    setNumberOption(option)
+    getNumberOption()
+    setStringOption(option)
+    getStringOption()
+    setBracketOption(option)
+    getBracketOption()
+
+
+
+- Using iterators
+
+    // Iterate over the words in a lexicon
+    Lexicon::Iterator iter = english.iterator();
+    while (iter.hasNext()) {
+        string word = iter.next();
+    }
+
+    // This book's collection classes also support 'foreach' syntax
+    foreach (string word in english) {
+        if (word.length() == 2) {
+            cout << word << endl;
+        }
+    }
+
+
+    Iterator Orders:
+      - vector  = in order of the elements in the vector
+      - grid    = row-major order
+      - map     = no order guaranteed
+      - lexicon = alphabetical order
