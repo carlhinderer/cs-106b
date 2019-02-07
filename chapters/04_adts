@@ -326,3 +326,17 @@ CHAPTER 4 - ABSTRACT DATA TYPES
       - grid    = row-major order
       - map     = no order guaranteed
       - lexicon = alphabetical order
+
+
+
+- Algorithm for shuffling an array
+
+    // For each position p1 in the array, pick a random position p2
+    //   between p1 and the end of the array.  Then, exchange the
+    //   values at positions p1 and p2.
+
+    int deckSize = 52;
+    for (int i=0; i < deckSize; i++) {
+        int pos = RandomInteger(i, deckSize-1);
+        SwapElements(i, pos);
+    }
