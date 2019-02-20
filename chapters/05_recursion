@@ -1,0 +1,111 @@
+-------------------------------------------------
+CHAPTER 5 - RECURSION
+-------------------------------------------------
+
+- Example - Recursive Factorial
+
+    int Factorial (int n) {
+        if (n == 0) {
+            return 1;
+        } else {
+            return n * Factorial(n-1);
+        }
+    }
+
+
+
+- Example - Recursive Fibonacci
+
+    /* This implementation is inefficient, because each computation is done twice */
+    int Fibonacci (int n) {
+        if (n < 2) {
+            return n;
+        } else {
+            return Fibonacci(n-1) + Fibonacci(n-2);
+        }
+    }
+
+
+
+- Example - More Efficient Fibonacci
+
+    /* Generalizes the problem to all additive sequences */
+    int AdditiveSequence(int n, int t0, int t1) {
+        if (n == 0) return t0;
+        if (n == 1) return t1;
+        return AdditiveSequence(n-1, t1, t0 + t1);
+    }
+
+    /* More efficient implementation avoids redundant calculations */
+    int Fibonacci (int n) {
+        return AdditiveSequence(n, 0, 1);
+    }
+
+
+
+- Example - Palindrome Checking
+
+    /* Simple, naive version */
+    bool IsPalindrome (string str) {
+        int len = str.length();
+        if (len <= 1) {
+            return true;
+        } else {
+            return (str[0] == str[len-1] && 
+                    IsPaldrome(str.substr(1, len-2)));
+        }
+    }
+
+
+
+- Example - More Efficient Palindrome Checking
+
+    /* Faster version of palindrome checking only checks string length
+     *   once, and avoids making a 'substr' call on each level.
+     */
+    bool IsPalindrome (string str) {
+        return CheckPalindrome(str, 0, str.length() - 1);
+    }
+
+    bool CheckPalindrome (string str, int firstPos, int lastPos) {
+        if (firstPos >= lastPos) {
+            return true;
+        } else {
+            return (str[firstPos] == str[lastPos] &&
+                    CheckPalindrome(str, firstPos + 1, lastPos - 1));
+        }
+    }
+
+
+
+- Example - Binary Search
+
+    int FindStringInSortedArray (string key, string array[], int n) {
+        return BinarySearch(key, array, n-1);
+    }
+
+    int BinarySearch (string key, string array[], int low, int high) {
+        if (low > high) return -1;
+        int mid = (low + high) / 2;
+        if (key == array[mid]) {
+            return BinarySearch(key, array, low, mid-1);
+        } else {
+            return BinarySearch(key, array, mid+1, high);
+        }
+    }
+
+
+
+- Example - Mutually Recursive Definitions
+
+    bool IsEven (unsigned int n) {
+        if (n == 0) {
+            return true;
+        } else {
+            return IsOdd(n - 1);
+        }
+    }
+
+    bool IsOdd (unsigned int n) {
+        return !IsEven(n);
+    }
