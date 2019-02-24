@@ -1,0 +1,86 @@
+-------------------------------------------------
+CHAPTER 6 - RECURSIVE PROCEDURES
+-------------------------------------------------
+
+- Tower of Hanoi
+
+    The famous puzzle involves 3 spires with 8 gold disks of different sizes
+      placed on top of them.  The goal is to stack all the disks on the first
+      spire, so that no larger disk is stacked on top of any smaller disk.
+
+
+    /* Pseudocode Solution 
+     *   n = number of disks to move
+     *   start, finish, temp = spires
+     */
+
+    void MoveTower (int n, char start, char finish, char temp) {
+        if (n == 1) {
+            # Move a single disk from start to finish
+        } else {
+            # Move a tower of (n-1) from start to temp
+            # Move a single disk from start to finish
+            # Move a tower of (n-1) from temp to finish
+        }
+    }
+
+
+
+- Full Solution - Tower of Hanoi
+
+
+    void MoveSingleDisk (char start, char finish) {
+        cout << start << " -> " << finish << endl;
+    }
+
+    void MoveTower (int n, char start, char finish, char temp) {
+        if (n == 1) {
+            MoveSingleDisk(start, finish);
+        } else {
+            MoveTower(n-1, start, temp, finish);
+            MoveSingleDisk(start, finish);
+            MoveTower(n-1, start, temp, finish);
+        }
+    }
+
+
+
+- Listing Permutations
+
+    void ListPermutations (string str) {
+        RecursivePermute("", str);
+    }
+
+
+    /* Pseudocode */
+    void RecursivePermute (string prefix, string rest) {
+        if (rest is empty) {
+            # Display the prefix string
+        } else {
+            for (each character in rest) {
+                # Add the character to the end of the prefix
+                # Remove the character from rest
+                # Recursively generate permutations with the updated values for prefix and rest
+            }
+        }
+    }
+
+
+
+- Full Solution - Listing Permutations
+
+    void ListPermutations (string str) {
+        RecursivePermute("", str);
+    }
+
+    void RecursivePermute (string prefix, string rest) {
+        if (rest == "") {
+            cout << prefix << endl;
+        } else {
+            for (int i=0; i < rest.length(); i++) {
+                string newPrefix = prefix + rest[i];
+                string newRest = rest.substr(0, i) + rest.substr(i+1);
+                RecursivePermute(newPrefix, newRest);
+            }
+        }
+    }
