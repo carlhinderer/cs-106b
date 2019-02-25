@@ -109,3 +109,108 @@ int EvaluateStaticPosition(stateT state);
 bool CheckForWin(stateT state, playerT player);
 bool CheckForWin(Grid<char> & board, char mark);
 bool CheckLine(Grid<char> & board, char mark, int row, int col, int dRow, int dCol);
+
+/* 
+ * Main program 
+ * ------------ 
+ * The main program, along with the functions FindBestMove and 
+ * EvaluatePosition, are general in their design and can be 
+ * used with most two-player games.  The specific details of 
+ * tic-tac-toe do not appear in these functions and are instead 
+ * encapsulated in the stateT and moveT data structures and a 
+ * a variety of subsidiary functions. 
+ */
+
+int main() {
+    GiveInstructions();
+    stateT state = NewGame();
+    moveT move;
+    while (!GameIsOver(state)) {
+        DisplayGame(state);
+        switch (WhoseTurn(state)) {  
+            case Human:
+                move = GetUserMove(state);
+                break;
+            case Computer:
+                move = ChooseComputerMove(state);
+                DisplayMove(move);
+                break;
+        }
+        MakeMove(state, move);
+    }
+    AnnounceResult(state);
+    return 0;
+}
+
+/* 
+ * Function: GiveInstructions 
+ * Usage: GiveInstructions(); 
+ * -------------------------- 
+ * This function gives the player instructions about how to 
+ * play the game. 
+ */
+
+void GiveInstructions() {
+    cout << "Welcome to tic-tac-toe.  The object of the game" << endl;
+    cout << "is to line up three symbols in a row," << endl;
+    cout << "vertically, horizontally, or diagonally." << endl;
+    cout << "You'll be " << PlayerMark(Human) << " and I'll be "
+         << PlayerMark(Computer) << "." << endl;
+}
+
+/* 
+ * Function: NewGame 
+ * Usage: state = NewGame(); 
+ * ------------------------- 
+ * This function starts a new game and returns a stateT that 
+ * has been initialized to the defined starting configuration. 
+ */
+
+stateT NewGame() {
+    stateT state;
+    state.board.resize(3, 3);
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            state.board[i][j] = ' ';
+        }
+    }
+    state.whoseTurn = FIRST_PLAYER;
+    state.turnsTaken = 0;
+    return state;
+}
+
+/* 
+ * Function: DisplayGame 
+ * Usage: DisplayGame(state); 
+ * -------------------------- 
+ * This function displays the current state of the game. 
+ */
+
+void DisplayGame(stateT state) {
+    if (GameIsOver(state)) {
+        cout << "The final position looks like this:" << endl << endl;
+    } else {
+        cout << "The game now looks like this:" << endl << endl;
+    }
+
+    for (int i = 0; i < 3; i++) {
+        if (i != 0) cout << "---+---+---" << endl;
+        for (int j = 0; j < 3; j++) {
+            if (j != 0) cout << "|";
+            cout << " " << state.board[i][j] << " ";
+        }
+        cout << endl;
+    }
+    cout << endl;
+}
+
+/* 
+ * Function: DisplayMove 
+ * Usage: DisplayMove(move); 
+ * ------------------------- 
+ * This function displays the computer's move. 
+ */
+
+void DisplayMove(moveT move) {
+    cout << "I'll move to " << move << endl;
+}
