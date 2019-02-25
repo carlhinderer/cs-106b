@@ -214,3 +214,108 @@ void DisplayGame(stateT state) {
 void DisplayMove(moveT move) {
     cout << "I'll move to " << move << endl;
 }
+
+/* 
+ * Function: FindBestMove 
+ * Usage: move = FindBestMove(state, depth, pRating); 
+ * -------------------------------------------------- 
+ * This function finds the best move for the current player, given 
+ * the specified state of the game.  The depth parameter and the 
+ * constant MAX_DEPTH are used to limit the depth of the search 
+ * for games that are too difficult to analyze in full detail. 
+ * The function returns the best move by storing an integer in 
+ * the variable to which pRating points. 
+ */
+
+moveT FindBestMove(stateT state, int depth, int & rating) {
+    Vector<moveT> moveList;
+    GenerateMoveList(state, moveList);
+    int nMoves = moveList.size();
+    if (nMoves == 0) Error("No moves available");
+    moveT bestMove;
+    int minRating = WINNING_POSITION + 1;
+    for (int i = 0; i < nMoves && minRating != LOSING_POSITION; i++) {
+        moveT move = moveList[i];
+        MakeMove(state, move);
+        int curRating = EvaluatePosition(state, depth + 1);
+        if (curRating < minRating) {
+            bestMove = move;
+            minRating = curRating;
+        }
+        RetractMove(state, move);
+    }
+    rating = -minRating;
+    return bestMove;
+}
+
+/* 
+ * Function: EvaluatePosition 
+ * Usage: rating = EvaluatePosition(state, depth); 
+ * ----------------------------------------------- 
+ * This function evaluates a position by finding the rating of 
+ * the best move in that position.  The depth parameter and the 
+ * constant MAX_DEPTH are used to limit the depth of the search. 
+ */
+
+int EvaluatePosition(stateT state, int depth) {
+    int rating;
+    if (GameIsOver(state) || depth >= MAX_DEPTH) {
+        return EvaluateStaticPosition(state);
+    }
+    FindBestMove(state, depth, rating);
+    return rating;
+}
+
+/* 
+ * Function: NewGame 
+ * Usage: state = NewGame(); 
+ * ------------------------- 
+ * This function starts a new game and returns a stateT that 
+ * has been initialized to the defined starting configuration. 
+ */
+
+stateT NewGame() {    
+    stateT state;    
+    for (int i = 1; i <= 9; i++) {
+        state.board[i] = ' ';
+    }
+    state.whoseTurn = FIRST_PLAYER;
+    state.turnsTaken = 0;
+    return state;
+}
+
+/* 
+ * Function: DisplayGame 
+ * Usage: DisplayGame(state); 
+ * -------------------------- 
+ * This function displays the current state of the game. 
+ */
+
+void DisplayGame(stateT state) {    
+    if (GameIsOver(state)) {
+        cout << "The final position looks like this:" << endl << endl;
+    } else {
+        cout << "The game now looks like this:" << endl << endl;
+    }
+
+    for (int row = 0; row < 3; row++) {
+        if (row != 0) cout << "---+---+---" << endl;
+        for (int col = 0; col < 3; col++) {
+            if (col != 0) cout << "|";
+            cout << " " << state.board[row * 3 + col + 1] << " ";
+        }
+        cout << endl;    
+    }
+    cout << endl;
+}
+
+/* 
+ * Function: DisplayMove 
+ * Usage: DisplayMove(move); 
+ * ------------------------- 
+ * This function displays the computer's move. 
+ */
+
+void DisplayMove(moveT move) {
+    cout << "I'll move to " << move << endl;
+}
