@@ -319,3 +319,122 @@ void DisplayGame(stateT state) {
 void DisplayMove(moveT move) {
     cout << "I'll move to " << move << endl;
 }
+
+/* 
+ * Function: PlayerMark 
+ * Usage: mark = PlayerMark(player); 
+ * --------------------------------- 
+ * This function returns the mark used on the board to indicate 
+ * the specified player.  By convention, the first player is 
+ * always X, so the mark used for each player depends on who 
+ * goes first. 
+ */
+
+char PlayerMark(playerT player) {
+    if (player == FIRST_PLAYER) {
+        return 'X';
+    } else {
+        return 'O';
+    }
+}
+
+/* 
+ * Function: GetUserMove 
+ * Usage: move = GetUserMove(state); 
+ * --------------------------------- 
+ * This function allows the user to enter a move and returns the 
+ * number of the chosen square.  If the user specifies an illegal 
+ * move, this function gives the user the opportunity to enter 
+ * a legal one. 
+ */
+
+moveT GetUserMove(stateT state) {
+    cout << "Your move." << endl;
+    moveT move;
+    while (true) {
+        cout << "What square? ";
+        move = GetInteger();
+        if (MoveIsLegal(move, state)) break;
+        cout << "That move is illegal.  Try again." << endl;
+    }
+    return move;
+}
+
+/* 
+ * Function: ChooseComputerMove 
+ * Usage: move = ChooseComputerMove(state); 
+ * ---------------------------------------- 
+ * This function chooses the computer's move and is primarily 
+ * a wrapper for FindBestMove.  This function also makes it 
+ * possible to display any game-specific messages that need 
+ * to appear at the beginning of the computer's turn.  The 
+ * rating value returned by FindBestMove is simply discarded. 
+ */
+
+moveT ChooseComputerMove(stateT state) {
+    int rating;
+    cout << "My move." << endl;
+    return FindBestMove(state, 0, rating);
+}
+
+/* 
+ * Function: GenerateMoveList 
+ * Usage: GenerateMoveList(state, moveList); 
+ * ----------------------------------------- 
+ * This function generates a list of the legal moves available in 
+ * the specified state.  The list of moves is returned in the 
+ * vector moveList, which must be allocated by the client. 
+ */
+
+void GenerateMoveList(stateT state, Vector<moveT> & moveList) {
+    for (int i = 1; i <= 9; i++) {
+        moveT move = moveT(i);
+        if (MoveIsLegal(move, state)) {
+            moveList.add(moveT(i));
+        }
+    }
+}
+
+/* 
+ * Function: MoveIsLegal 
+ * Usage: if (MoveIsLegal(move, state)) . . . 
+ * ------------------------------------------ 
+ * This function returns true if the specified move is legal. 
+ */
+
+bool MoveIsLegal(moveT move, stateT state) {
+    if (move < 1 || move > 9) return false;
+    int row = (move - 1) / 3;
+    int col = (move - 1) % 3;
+    return state.board[row][col] == ' ';
+}
+
+/* 
+ * Function: MakeMove 
+ * Usage: MakeMove(state, move); 
+ * ----------------------------- 
+ * This function changes the state by making the indicated move. 
+ */
+
+void MakeMove(stateT & state, moveT move) {
+    int row = (move - 1) / 3;
+    int col = (move - 1) % 3;
+    state.board[row][col] = PlayerMark(state.whoseTurn);
+    state.whoseTurn = Opponent(state.whoseTurn);
+    state.turnsTaken++;
+}
+
+/* 
+ * Function: RetractMove 
+ * Usage: RetractMove(state, move); 
+ * -------------------------------- 
+ * This function changes the state by "unmaking" the indicated move. 
+ */
+
+void RetractMove(stateT & state, moveT move) {
+    int row = (move - 1) / 3;
+    int col = (move - 1) % 3;
+    state.board[row][col] = ' ';
+    state.whoseTurn = Opponent(state.whoseTurn);
+    state.turnsTaken--;
+}
