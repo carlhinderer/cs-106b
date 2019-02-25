@@ -438,3 +438,81 @@ void RetractMove(stateT & state, moveT move) {
     state.whoseTurn = Opponent(state.whoseTurn);
     state.turnsTaken--;
 }
+
+/* 
+ * Function: GameIsOver 
+ * Usage: if (GameIsOver(state)) . . . 
+ * ----------------------------------- 
+ * This function returns true if the game is complete. 
+ */
+
+bool GameIsOver(stateT state) {
+    return (state.turnsTaken == 9 
+            || CheckForWin(state, state.whoseTurn)
+            || CheckForWin(state, Opponent(state.whoseTurn)));
+}
+
+/* 
+ * Function: AnnounceResult 
+ * Usage: AnnounceResult(state); 
+ * ----------------------------- 
+ * This function announces the result of the game. 
+ */
+
+void AnnounceResult(stateT state) {
+    DisplayGame(state);
+    if (CheckForWin(state, Human)) {
+        cout << "You win." << endl;
+    } else if (CheckForWin(state, Computer)) {
+        cout << "I win." << endl;
+    } else {
+        cout << "Cat's game." << endl;
+    }
+}
+
+/* 
+ * Function: WhoseTurn 
+ * Usage: player = WhoseTurn(state); 
+ * --------------------------------- 
+ * This function returns whose turn it is, given the current 
+ * state of the game.  The reason for making this a separate 
+ * function is to ensure that the common parts of the code do 
+ * not need to refer to the internal components of the state. 
+ */
+
+playerT WhoseTurn(stateT state) {
+    return state.whoseTurn;
+}
+
+/* 
+ * Function: Opponent 
+ * Usage: opp = Opponent(player); 
+ * ------------------------------ 
+ * This function returns the playerT value corresponding to the 
+ * opponent of the specified player. 
+ */
+
+playerT Opponent(playerT player) {
+    return (player == Human) ? Computer : Human;
+}
+
+/* 
+ * Function: EvaluateStaticPosition 
+ * Usage: rating = EvaluateStaticPosition(state); 
+ * ---------------------------------------------- 
+ * This function gives the rating of a position without looking 
+ * ahead any further in the game tree.  Although this function 
+ * duplicates much of the computation of GameIsOver and therefore 
+ * introduces some runtime inefficiency, it makes the algorithm 
+ * somewhat easier to follow. 
+ */
+
+int EvaluateStaticPosition(stateT state) {
+    if (CheckForWin(state, state.whoseTurn)) {
+        return WINNING_POSITION;
+    }
+    if (CheckForWin(state, Opponent(state.whoseTurn))) {
+        return LOSING_POSITION;
+    }
+    return NEUTRAL_POSITION;
+}
