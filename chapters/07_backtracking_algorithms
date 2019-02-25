@@ -51,3 +51,61 @@ CHAPTER 7 - BACKTRACKING ALGORITHMS
 
       1. Limit the depth of the recursive search
       2. Assign ratings to moves and positions
+
+
+
+- Implementing minimax algorithms
+
+    To implement the algorithm while taking our design constraints into consideration,
+      we create 2 mutually recursive functions, 'FindBestMove()' and 'EvaluatePosition()'.
+
+      moveT FindBestMove (stateT state, int depth, int & rating);
+      int EvaluatePosition (stateT state, int depth);
+
+
+    The strategy for 'FindBestMove()':
+
+      moveT FindBestMove (stateT state, int depth, int & rating) {
+          for (# each possible move or until you find a forced win) {
+              # Make the move
+              # Evaluate the resulting position, adding 1 to the depth indicator
+              # Keep track of the minimum rating so far, along with the corresponding move
+              # Retract the move to restore the original state
+          }
+          # Store the move rating into the reference parameter
+          # Return the best move
+      }
+
+
+
+- Minimax implementation
+
+    moveT FindBestMove (stateT state, int depth, int & rating) {    
+        Vector<moveT> moveList;
+        GenerateMoveList(state, moveList);
+        int nMoves = moveList.size();
+        if (nMoves == 0) Error("No moves available");
+        moveT bestMove;
+        int minRating = WINNING_POSITION + 1;
+        for(inti=0;i<nMoves&&minRating!=LOSING_POSITION;i++){
+            moveT move = moveList[i];
+            MakeMove(state, move);
+            int curRating = EvaluatePosition(state, depth + 1);
+            if (curRating < minRating) {
+                bestMove = move;
+                minRating = curRating;
+            }
+            RetractMove(state, move);
+        }
+        rating = -minRating;
+        return bestMove;
+    }
+
+    int EvaluatePosition (stateT state, int depth) {    
+        int rating;    
+        if (GameIsOver(state) || depth >= MAX_DEPTH) { 
+            return EvaluateStaticPosition(state);    
+        }
+        FindBestMove(state, depth, rating);
+        return rating;
+    }
