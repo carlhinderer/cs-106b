@@ -1,0 +1,53 @@
+-------------------------------------------------
+CHAPTER 7 - BACKTRACKING ALGORITHMS
+-------------------------------------------------
+
+- Example - Solving a Maze Using Backtracking
+
+
+    enum directionT { North, East, South, West };
+    struct pointT {
+        int x, y;
+    };
+
+
+    pointT AdjacentPoint (pointT pt, directionT dir) {
+        pointT newpt = pt;
+        switch(dir) {
+            case North: newpt.y++; break;
+            case East:  newpt.x++; break;
+            case South: newpt.y--; break;
+            case West:  newpt.x--; break;
+        }
+    }
+
+
+    bool SolveMaze(pointT pt) {
+        if (OutsideMaze(pt)) return true;
+        if (IsMarked(pt)) return false;
+        MarkSquare(pt);
+
+        for (int i=0; i<4; i++) {
+            directionT dir = directionT(i);
+            if (!WallExists(pt, dir)) {
+                if (SolveMaze(AdjacentPoint(pt, dir))) {
+                    return true;
+                }
+            }
+        }
+
+        UnmarkSquare(pt);
+        return false;
+    }
+
+
+
+- Minimax algorithms
+
+    The minimax strategy is used in games to determine which path a player should 
+      take by minimizing the maximum score available to your opponent.
+
+    When implementing a minimax algorithm, we must be able to:
+
+      1. Limit the depth of the recursive search
+      2. Assign ratings to moves and positions
